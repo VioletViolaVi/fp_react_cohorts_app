@@ -1,3 +1,5 @@
+// ...,[]) makes app re-run once
+
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
@@ -16,31 +18,34 @@ function App() {
     )
       .then((res) => res.json())
       .then((data) => {
-        // [{...}, {...}, {...}]
-        console.log("HERE ==> ", data.students);
+        // data.students ==> [{...}, {...}, {...}]
         setStudents(data.students);
       })
       .catch((err) => console.log(err));
-  }, []); // makes app re-run once
+  }),
+    [cohort];
 
   const handleInput = (e) => {
-    setCohort(e.target.value);
+    setInputValue(e.target.value.toLowerCase());
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setCohort(inputValue);
   };
 
   return (
     <div className="App">
+      <h1>
+        {cohort.slice(0, 1).toUpperCase() + cohort.slice(1).toLowerCase()}
+      </h1>
       {students.map((student) => {
         return <p key={student.name}>{student.name}</p>;
       })}
 
-      <form action="#" method="get">
-        <input
-          onChange={handleInput}
-          type="text"
-          name="studentName"
-          id="studentName"
-        />
-        <input type="button" value="Submit" />
+      <form onSubmit={handleSubmit} action="#" method="get">
+        <input onChange={handleInput} type="text" value={inputValue} />
+        <input type="submit" value="Submit" />
       </form>
     </div>
   );
