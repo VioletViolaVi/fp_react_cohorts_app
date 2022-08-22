@@ -1,5 +1,3 @@
-// ...,[]) makes app re-run once
-
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
@@ -22,8 +20,7 @@ function App() {
         setStudents(data.students);
       })
       .catch((err) => console.log(err));
-  }),
-    [cohort];
+  }, [cohort]); // makes app re-run once
 
   const handleInput = (e) => {
     setInputValue(e.target.value.toLowerCase());
